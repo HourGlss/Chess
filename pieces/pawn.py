@@ -6,11 +6,7 @@ class Pawn(Piece):
         super().__init__(color)
         self.symbol = "P"
 
-    def __repr__(self):
-        return str(self)
 
-    def __str__(self):
-        return self.symbol
 
 
 if __name__ == "__main__":

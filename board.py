@@ -1,17 +1,30 @@
 from tile import Tile
+
+# Import all the pieces
+from pieces.pawn import Pawn
+from pieces.knight import Knight
+from pieces.rook import Rook
+from pieces.bishop import Bishop
+from pieces.queen import Queen
+from pieces.king import King
+
+
 class Board:
     board = None
+    BOARD_SIZE = 8
+    ranks = range(BOARD_SIZE, 0, -1)
+    files = [chr(e) for e in range(ord('a'), ord('a') + BOARD_SIZE)]
 
     def __init__(self):
-        print("new board made")
+        pass
 
     def create_board(self):
         self.board = []
         color = "white"
-        for x in range(8):
+        for x in range(self.BOARD_SIZE):
             current = []
-            for y in range(8):
-                temp = Tile(x,y,color)
+            for y in range(self.BOARD_SIZE):
+                temp = Tile(x, y, color)
                 current.append(temp)
                 if color == "white":
                     color = "black"
@@ -23,13 +36,55 @@ class Board:
                 color = "white"
             self.board.append(current)
 
+    def reset_pieces(self):
+
+        # p2 = Pawn("black")
+        # b.board[5][6].add_piece(p)
+
+        # WHITE PAWNS
+        color = "white"
+        for i in range(self.BOARD_SIZE):
+            p = Pawn(color)
+            self.board[i][6].add_piece(p)
+        # Other white pieces
+        pieces = [Rook(color), Knight(color), Bishop(color), Queen(color), King(color), Bishop(color), Knight(color),
+                  Rook(color)]
+        for i in range(self.BOARD_SIZE):
+            self.board[i][7].add_piece(pieces[i])
+
+        # BLACK PAWNS
+        color = "black"
+        for i in range(self.BOARD_SIZE):
+            p = Pawn(color)
+            self.board[i][1].add_piece(p)
+        # Other black pieces
+        pieces = [Rook(color), Knight(color), Bishop(color), Queen(color), King(color), Bishop(color), Knight(color),
+                  Rook(color)]
+        for i in range(self.BOARD_SIZE):
+            self.board[i][0].add_piece(pieces[i])
+
     def print_board(self):
-        for x in range(len(self.board)):
-            for y in range(len(self.board[x])):
-                print(self.board[x][y],end ="")
+        y = 0
+        for rank in self.ranks:
+            print(f"{rank:2}", end="\t")
+            x = 0
+            for file in self.files:
+                print(self.board[x][y], end="")
+                x += 1
+            y += 1
             print()
+        print("\t", end="")
+        for file in self.files:
+            print(f" {file} ", end="")
+        print()
 
+    def __parse_command(self, s):
+        portions = s.split(" ")
+        from_location, where = portions
 
+    def move_piece(self, s):
+
+        pass
 
 
 if __name__ == "__main__":

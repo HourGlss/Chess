@@ -31,7 +31,7 @@ class Tile:
     def __str__(self):
         ret = ""
         if self.color == "white":
-            ret += Back.WHITE
+            ret += ""
         else:
             ret += Back.BLACK
 
@@ -41,7 +41,7 @@ class Tile:
             if self.piece.color == "white":
                 ret += Fore.BLUE
             else:
-                ret += Fore.RED
+                ret += Fore.LIGHTRED_EX
             ret += f" {self.piece.symbol} "
         ret += Style.RESET_ALL
         return ret
