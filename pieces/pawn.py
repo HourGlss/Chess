@@ -2,8 +2,8 @@ from pieces.piece import Piece
 
 
 class Pawn(Piece):
-    def __init__(self, color, rank, file):
-        super().__init__(color, rank, file)
+    def __init__(self, color):
+        super().__init__(color)
         self.symbol = "P"
 
     def __repr__(self):
@@ -14,5 +14,5 @@ class Pawn(Piece):
 
 
 if __name__ == "__main__":
-    p = Pawn("white", "a", 1)
+    p = Pawn("white")
     print(p.symbol)
