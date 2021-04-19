@@ -1,10 +1,10 @@
 class Piece:
-    owner = None
-    location = None
+    color = None
     symbol = None
 
-    def __init__(self, owner, rank, file):
-        self.owner = owner
+    def __init__(self, color, rank, file):
+        assert (color == "white" or color == "black")
+        self.color = color
         self.rank = rank
         self.file = file
 
@@ -12,3 +12,4 @@ class Piece:
     def move(self):
         print("Called from Piece")
         return None
+
