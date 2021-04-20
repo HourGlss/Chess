@@ -90,13 +90,21 @@ class Board:
 
     def __parse_command(self, s):
         portions = s.split(" ")
-        from_location, to_location = portions
+        try:
+            from_location, to_location = portions
+        except:
+            return None
         startx,starty =  self.__transpose_rank_file_to_x_y(from_location)
         endx,endy = self.__transpose_rank_file_to_x_y(to_location)
         return startx,starty,endx,endy
 
     def move_piece(self, s):
-        startx,starty,endx,endy = self.__parse_command(s)
+        ret =  self.__parse_command(s)
+        if ret is not None:
+            startx, starty, endx, endy = ret
+        else:
+            print("Bad input!")
+            return False
         # print(f"({startx},{starty}) -> ({endx},{endy})")
         piece = self.board[startx][starty].get_piece()
         if piece is not None:
@@ -109,6 +117,7 @@ class Board:
                 return False
         else:
             print("MOVE IS NOT VALID - NO PIECE THERE")
+            return False
 
 if __name__ == "__main__":
     b = Board()
