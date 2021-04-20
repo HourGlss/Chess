@@ -83,8 +83,11 @@ class Board:
         s = str(s).lower()
         file = s[0]
         rank = int(s[1])
-        x = self.files.index(file)
-        y = self.ranks.index(rank)
+        try:
+            x = self.files.index(file)
+            y = self.ranks.index(rank)
+        except:
+            return None
         return x,y
 
 
@@ -94,8 +97,11 @@ class Board:
             from_location, to_location = portions
         except:
             return None
-        startx,starty =  self.__transpose_rank_file_to_x_y(from_location)
-        endx,endy = self.__transpose_rank_file_to_x_y(to_location)
+        try:
+            startx,starty =  self.__transpose_rank_file_to_x_y(from_location)
+            endx,endy = self.__transpose_rank_file_to_x_y(to_location)
+        except:
+            return None
         return startx,starty,endx,endy
 
     def move_piece(self, s):
