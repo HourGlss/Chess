@@ -58,7 +58,8 @@ class Board:
             p = Pawn(color)
             self.board[i][1].add_piece(p)
         # Other black pieces
-        pieces = [Rook(color), Knight(color), Bishop(color), Queen(color), King(color), Bishop(color), Knight(color),
+        pieces = [
+            Rook(color), Knight(color), Bishop(color), Queen(color), King(color), Bishop(color), Knight(color),
                   Rook(color)]
         for i in range(self.BOARD_SIZE):
             self.board[i][0].add_piece(pieces[i])
@@ -78,14 +79,36 @@ class Board:
             print(f" {file} ", end="")
         print()
 
+    def __transpose_rank_file_to_x_y(self,s):
+        s = str(s).lower()
+        file = s[0]
+        rank = int(s[1])
+        x = self.files.index(file)
+        y = self.ranks.index(rank)
+        return x,y
+
+
     def __parse_command(self, s):
         portions = s.split(" ")
-        from_location, where = portions
+        from_location, to_location = portions
+        startx,starty =  self.__transpose_rank_file_to_x_y(from_location)
+        endx,endy = self.__transpose_rank_file_to_x_y(to_location)
+        return startx,starty,endx,endy
 
     def move_piece(self, s):
-
-        pass
-
+        startx,starty,endx,endy = self.__parse_command(s)
+        # print(f"({startx},{starty}) -> ({endx},{endy})")
+        piece = self.board[startx][starty].get_piece()
+        if piece is not None:
+            if piece.is_valid_move(self.board,startx,starty,endx,endy):
+                self.board[startx][starty].remove_piece()
+                self.board[endx][endy].add_piece(piece)
+                return True
+            else:
+                print("MOVE IS NOT VALID - PIECE CANT MOVE THAT WAY")
+                return False
+        else:
+            print("MOVE IS NOT VALID - NO PIECE THERE")
 
 if __name__ == "__main__":
     b = Board()

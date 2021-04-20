@@ -17,6 +17,9 @@ class Tile:
     def add_piece(self, p):
         self.piece = p
 
+    def get_piece(self):
+        return self.piece
+
     def remove_piece(self):
         self.piece = None
 
@@ -31,21 +34,20 @@ class Tile:
     def __str__(self):
         ret = ""
         if self.color == "white":
-            ret += ""
+            ret += Back.LIGHTWHITE_EX
         else:
-            ret += Back.BLACK
-
+            ret += ""
         if self.piece is None:
             ret += "   "
         else:
             if self.piece.color == "white":
-                ret += Fore.BLUE
+                ret += Style.BRIGHT + Fore.BLUE
             else:
-                ret += Fore.LIGHTRED_EX
+                ret += Style.DIM + Fore.RED
             ret += f" {self.piece.symbol} "
         ret += Style.RESET_ALL
         return ret
 
 
 if __name__ == "__main__":
-    colorama.init()
+    pass

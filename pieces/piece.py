@@ -6,7 +6,7 @@ class Piece:
         assert (color == "white" or color == "black")
         self.color = color
 
-    def move(self):
+    def is_valid_move(self,board,startx,starty,endx,endy):
         # print("Called from Piece")
         return None
 
