@@ -6,13 +6,21 @@ class Tile:
     x = None
     y = None
     piece = None
-    color = None
+    chess_color = None
+    background_color = None
 
-    def __init__(self, x, y, color):
+    def __init__(self, x, y, chess_color):
         self.x = x
         self.y = y
-        assert (color == "white" or color == "black")
-        self.color = color
+        assert (chess_color == "white" or chess_color == "black")
+        self.chess_color = chess_color
+        self.set_background_color()
+
+    def set_background_color(self):
+        if self.chess_color == "white":
+            self.background_color = Back.LIGHTWHITE_EX
+        else:
+            self.background_color = ""
 
     def add_piece(self, p):
         self.piece = p
@@ -33,10 +41,7 @@ class Tile:
 
     def __str__(self):
         ret = ""
-        if self.color == "white":
-            ret += Back.LIGHTWHITE_EX
-        else:
-            ret += ""
+        ret += self.background_color
         if self.piece is None:
             ret += "   "
         else:
