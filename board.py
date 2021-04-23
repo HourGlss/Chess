@@ -65,6 +65,10 @@ class Board:
             self.board[i][0].add_piece(pieces[i])
 
     def print_board(self):
+        print("\t", end="")
+        for a in range(0,8):
+            print(f" {a} ",end= "")
+        print()
         y = 0
         for rank in self.ranks:
             print(f"{rank:2}", end="\t")
@@ -72,8 +76,8 @@ class Board:
             for file in self.files:
                 print(self.board[x][y], end="")
                 x += 1
+            print(f" {y}")
             y += 1
-            print()
         print("\t", end="")
         for file in self.files:
             print(f" {file} ", end="")
@@ -114,7 +118,7 @@ class Board:
         # print(f"({startx},{starty}) -> ({endx},{endy})")
         piece = self.board[startx][starty].get_piece()
         if piece is not None:
-            if piece.is_valid_move(self.board,startx,starty,endx,endy):
+            if piece.is_valid_move(self,startx,starty,endx,endy):
                 self.board[startx][starty].remove_piece()
                 self.board[endx][endy].add_piece(piece)
                 return True

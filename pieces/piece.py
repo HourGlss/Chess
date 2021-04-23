@@ -8,7 +8,7 @@ class Piece:
 
     def is_valid_move(self,board,startx,starty,endx,endy):
         # print("Called from Piece")
-        return None
+        return False
 
     def __repr__(self):
         return str(self)
