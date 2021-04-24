@@ -74,12 +74,15 @@ class Board:
 
     def custom_piece_placement(self):
         color = "white"
+        p = Pawn(color)
         n = Knight(color)
         r = Rook(color)
         q = Queen(color)
         b = Bishop(color)
         k = King(color)
 
+        self.board[0][6].add_piece(p)
+        self.board[1][6].add_piece(p)
         self.board[2][6].add_piece(r)
         self.board[5][3].add_piece(r)
         self.board[5][1].add_piece(b)

@@ -41,8 +41,8 @@ def main():
     colorama.init()
     b = Board()
     b.create_board()
-    b.reset_pieces()
-    # b.custom_piece_placement()
+    # b.reset_pieces()
+    b.custom_piece_placement()
     player = "white"
     print_on_next = True
     selected = False
