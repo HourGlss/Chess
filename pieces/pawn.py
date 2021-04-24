@@ -12,7 +12,6 @@ class Pawn(Piece):
 
         valid_movement = False
         if not opponents_piece_is_occupying:
-            # this is when im not attacking
             if startx == endx:
                 if self.color == "white":
                     if starty == 6:
@@ -22,7 +21,6 @@ class Pawn(Piece):
                             valid_movement = True
                     elif starty - 1 == endy:
                         valid_movement = True
-
                 else:
                     if starty == 1:
                         if endy == 2:
@@ -31,15 +29,11 @@ class Pawn(Piece):
                             valid_movement = True
                     elif starty + 1 == endy:
                         valid_movement = True
-            # black
         else:
-            # this is when im attacking
             if startx + 1 == endx or startx - 1 == endx:
                 if self.color == "white":
                     if starty - 1 == endy:
                         valid_movement = True
-
-
                 else:
                     if starty + 1 == endy:
                         valid_movement = True
