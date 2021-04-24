@@ -11,12 +11,19 @@ class Rook(Piece):
         opponents_piece_is_occupying = self.attempt_capture(board, endx, endy)
 
         valid_movement = False
+        # DOWN
+        if starty < endy:
+           if startx == endx:
+               for i in range(starty+1, endy+1):
+                   print(f'this is endx {endx} i {i}')
+                   if not board.board[endx][i].check_if_free():
+                       return False
+                   elif self.attempt_capture(board, endx, i):
+                       return True
+
+               valid_movement = True
         # UP
         # IF IM MOVING UP
-            # IF THERES NOTHING IN THE WAY
-                # VALID MOVEMENT IS TRUE
-        # DOWN
-        # IF IM MOVING DOWN
             # IF THERES NOTHING IN THE WAY
                 # VALID MOVEMENT IS TRUE
 
