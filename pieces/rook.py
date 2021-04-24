@@ -12,29 +12,40 @@ class Rook(Piece):
 
         valid_movement = False
         # DOWN
-        if starty < endy:
-           if startx == endx:
-               for i in range(starty+1, endy+1):
-                   print(f'this is endx {endx} i {i}')
-                   if not board.board[endx][i].check_if_free():
-                       return False
-                   elif self.attempt_capture(board, endx, i):
-                       return True
+        if startx == endx or endy == starty:
+            # DOWN
+            if starty < endy:
+               stopy = None
+               for y in range(starty+1, endy+1):
+                   if not board.board[endx][y].check_if_free():
+                       stopy = y
+                       break
+               if stopy is None or (stopy == endy and opponents_piece_is_occupying):
+                   return True
+               valid_movement = False
+            # UP
+            elif starty > endy:
+               stopy = None
+               for y in range(starty-1, endy-1):
+                   print(y)
+                   if not board.board[endx][y].check_if_free():
+                       stopy = y
+                       break
+               if stopy is None or (stopy == endy and opponents_piece_is_occupying):
+                   return True
+               valid_movement = False
+            # IF IM MOVING UP
+                # IF THERES NOTHING IN THE WAY
+                    # VALID MOVEMENT IS TRUE
 
-               valid_movement = True
-        # UP
-        # IF IM MOVING UP
-            # IF THERES NOTHING IN THE WAY
-                # VALID MOVEMENT IS TRUE
-
-        # LEFT
-        # IF IM MOVING LEFT
-            # IF THERES NOTHING IN THE WAY
-                # VALID MOVEMENT IS TRUE
-        # RIGHT
-        # IF IM MOVING RIGHT
-            # IF THERES NOTHING IN THE WAY
-                # VALID MOVEMENT IS TRUE
+            # LEFT
+            # IF IM MOVING LEFT
+                # IF THERES NOTHING IN THE WAY
+                    # VALID MOVEMENT IS TRUE
+            # RIGHT
+            # IF IM MOVING RIGHT
+                # IF THERES NOTHING IN THE WAY
+                    # VALID MOVEMENT IS TRUE
 
         if (tile_is_free or opponents_piece_is_occupying) and valid_movement:
             return True
