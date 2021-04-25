@@ -20,9 +20,9 @@ class Board:
     def create_board(self):
         self.board = []
         color = "white"
-        for x in range(Config.BOARD_SIZE):
+        for y in range(Config.BOARD_SIZE):
             current = []
-            for y in range(Config.BOARD_SIZE):
+            for x in range(Config.BOARD_SIZE):
                 temp = Tile(x, y, color)
                 current.append(temp)
                 if color == "white":
