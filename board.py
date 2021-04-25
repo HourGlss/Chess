@@ -134,7 +134,7 @@ class Board:
             for y in range(Config.BOARD_SIZE):
                 for x in range(Config.BOARD_SIZE):
                     if piece.is_valid_move(self, selx, sely, x, y):
-                        if self.if_tile_is_free(x, y):
+                        if self.is_tile_free(x, y):
                             self.board[x][y].background_color = Back.LIGHTYELLOW_EX
                         else:
                             self.board[x][y].background_color = Back.LIGHTCYAN_EX
@@ -159,7 +159,7 @@ class Board:
                 for x in range(Config.BOARD_SIZE):
                     self.board[x][y].set_background_color()
 
-    def if_tile_is_free(self, x, y):
+    def is_tile_free(self, x, y):
         return self.board[x][y].check_if_free()
 
     def get_piece_at(self, x, y):
