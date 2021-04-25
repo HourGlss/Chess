@@ -7,7 +7,7 @@ class Rook(Piece):
         self.symbol = "R"
 
     def is_valid_move(self, board, startx, starty, endx, endy):
-        tile_is_free = board.board[endx][endy].check_if_free()
+        tile_is_free = board.is_tile_free(endx,endy)
         opponents_piece_is_occupying = self.attempt_capture(board, endx, endy)
 
         valid_movement = False
@@ -17,7 +17,7 @@ class Rook(Piece):
             if starty < endy:
                stopy = None
                for y in range(starty+1, endy+1):
-                   if not board.board[endx][y].check_if_free():
+                   if not board.is_tile_free(endx,y):
                        stopy = y
                        break
                if stopy is None or (stopy == endy and opponents_piece_is_occupying):
@@ -27,7 +27,7 @@ class Rook(Piece):
             elif endy < starty:
                stopy = None
                for y in range(starty-1, endy-1, -1):
-                   if not board.board[endx][y].check_if_free():
+                   if not board.is_tile_free(endx,y):
                        stopy = y
                        break
                if stopy is None or (stopy == endy and opponents_piece_is_occupying):
@@ -37,7 +37,7 @@ class Rook(Piece):
             elif endx < startx:
                stopx = None
                for x in range(startx-1, endx-1, -1):
-                   if not board.board[x][endy].check_if_free():
+                   if not board.is_tile_free(x,endy):
                        stopx = x
                        break
                if stopx is None or (stopx == endx and opponents_piece_is_occupying):
@@ -47,7 +47,7 @@ class Rook(Piece):
             if startx < endx:
                stopx = None
                for x in range(startx+1, endx+1):
-                   if not board.board[x][endy].check_if_free():
+                   if not board.is_tile_free(x,endy):
                        stopx = x
                        break
                if stopx is None or (stopx == endx and opponents_piece_is_occupying):
