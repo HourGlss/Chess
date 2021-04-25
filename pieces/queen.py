@@ -8,6 +8,7 @@ class Queen(Piece):
         self.symbol = "Q"
 
     def is_valid_move(self, board, startx, starty, endx, endy):
+
         if Bishop.is_valid_move(self,board,startx,starty,endx,endy) or Rook.is_valid_move(self,board,startx,starty,endx,endy):
             return True
         return False

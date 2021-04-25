@@ -9,7 +9,7 @@ class King(Piece):
         self.symbol = "K"
 
     def is_valid_move(self, board, startx, starty, endx, endy):
-        if starty + 1 or startx + 1 or startx - 1 or starty - 1:
+        if (startx == endx or startx+1 == endx or startx-1 == endx) and (starty + 1== endy or starty - 1 == endy or starty==endy):
             if Bishop.is_valid_move(self, board, startx, starty, endx, endy) or Rook.is_valid_move(self, board, startx,
                                                                                                    starty, endx, endy):
                 return True
