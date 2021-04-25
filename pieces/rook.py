@@ -22,18 +22,19 @@ class Rook(Piece):
                        break
                if stopy is None or (stopy == endy and opponents_piece_is_occupying):
                    return True
-               valid_movement = False
+
             # UP
             elif starty > endy:
                stopy = None
                for y in range(starty-1, endy-1):
                    print(y)
-                   if not board.board[endx][y].check_if_free():
+                   if not tile_is_free:
+                       print(y)
                        stopy = y
                        break
                if stopy is None or (stopy == endy and opponents_piece_is_occupying):
                    return True
-               valid_movement = False
+
             # IF IM MOVING UP
                 # IF THERES NOTHING IN THE WAY
                     # VALID MOVEMENT IS TRUE
