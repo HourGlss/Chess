@@ -92,6 +92,7 @@ class Board:
 
         color = "black"
         p = Pawn(color)
+        self.board[6][0].add_piece(p)
         self.board[2][3].add_piece(p)
         self.board[5][6].add_piece(p)
         self.board[1][5].add_piece(p)
