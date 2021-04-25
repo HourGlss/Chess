@@ -24,27 +24,35 @@ class Rook(Piece):
                    valid_movement = True
 
             # UP
-            elif starty > endy:
+            elif endy < starty:
                stopy = None
-               for y in range(endy, starty):
+               for y in range(starty-1, endy-1, -1):
                    if not board.board[endx][y].check_if_free():
                        stopy = y
                        break
                if stopy is None or (stopy == endy and opponents_piece_is_occupying):
                    valid_movement = True
 
-            # IF IM MOVING UP
-                # IF THERES NOTHING IN THE WAY
-                    # VALID MOVEMENT IS TRUE
-
             # LEFT
-            # IF IM MOVING LEFT
-                # IF THERES NOTHING IN THE WAY
-                    # VALID MOVEMENT IS TRUE
+            elif endx < startx:
+               stopx = None
+               for x in range(startx-1, endx-1, -1):
+                   if not board.board[x][endy].check_if_free():
+                       stopx = x
+                       break
+               if stopx is None or (stopx == endx and opponents_piece_is_occupying):
+                   valid_movement = True
+
             # RIGHT
-            # IF IM MOVING RIGHT
-                # IF THERES NOTHING IN THE WAY
-                    # VALID MOVEMENT IS TRUE
+            if startx < endx:
+               stopx = None
+               for x in range(startx+1, endx+1):
+                   if not board.board[x][endy].check_if_free():
+                       stopx = x
+                       break
+               if stopx is None or (stopx == endx and opponents_piece_is_occupying):
+                   valid_movement = True
+
 
         if (tile_is_free or opponents_piece_is_occupying) and valid_movement:
             return True
