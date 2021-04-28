@@ -7,7 +7,7 @@ class Queen(Piece):
         super().__init__(color)
         self.symbol = "Q"
 
-    def is_valid_move(self, board, startx, starty, endx, endy):
+    def is_valid_move(self, board, startx, starty, endx, endy, evaluate_only=True):
 
         if Bishop.is_valid_move(self,board,startx,starty,endx,endy) or Rook.is_valid_move(self,board,startx,starty,endx,endy):
             return True

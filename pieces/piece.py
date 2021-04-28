@@ -1,12 +1,15 @@
 class Piece:
     color = None
     symbol = None
+    moved = None
+
 
     def __init__(self, color):
         assert (color == "white" or color == "black")
         self.color = color
+        self.moved = False
 
-    def is_valid_move(self, board, startx, starty, endx, endy):
+    def is_valid_move(self, board, startx, starty, endx, endy, evaluate_only=True):
         # print("Called from Piece")
         return False
 

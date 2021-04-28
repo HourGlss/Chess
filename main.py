@@ -47,30 +47,40 @@ def main():
     print_on_next = True
     selected = False
     parsed_user_input = None
+    msg = ""
     while True:
         if print_on_next:
-            clear_screen()
+            # clear_screen()
+            msg = f"{player}'s turn"
+            print(msg)
             b.print_board(selected=selected, parsed_user_input=parsed_user_input)
             selected = False
-        user_input = input("Select or FROM TO or Q\n").lower()
+        user_input = input("Select or FROM TO or Q or ATK\n").lower()
 
         if user_input != "q":
-            parsed_user_input = parse_command(user_input)
-            if parsed_user_input is not None:
-                if len(parsed_user_input) == 4:
+            if not user_input.startswith("atk"):
 
-                    if not b.move_piece(player,parsed_user_input):
-                        print_on_next = False
-                        continue
-                    else:
-                        print_on_next = True
-                        if player == "white":
-                            player = "black"
+                parsed_user_input = parse_command(user_input)
+                if parsed_user_input is not None:
+                    if len(parsed_user_input) == 4:
+
+                        if not b.move_piece(player,parsed_user_input):
+                            print_on_next = False
                         else:
-                            player = "white"
-                elif len(parsed_user_input) == 2:
-                    selected = True
-                    continue
+                            print_on_next = True
+                            if player == "white":
+                                player = "black"
+                            else:
+                                player = "white"
+
+                    elif len(parsed_user_input) == 2:
+                        selected = True
+
+            else:
+                parsed_user_input = parse_command(user_input[4:])
+                b.show_if_tile_under_attack(parsed_user_input[0],parsed_user_input[1])
+                print_on_next = False
+
 
         else:
             break

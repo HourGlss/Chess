@@ -6,7 +6,7 @@ class Knight(Piece):
         super().__init__(color)
         self.symbol = "N"
 
-    def is_valid_move(self, board, startx, starty, endx, endy):
+    def is_valid_move(self, board, startx, starty, endx, endy, evaluate_only=True):
         tile_is_free = board.board[endx][endy].check_if_free()
         opponents_piece_is_occupying = self.attempt_capture(board, endx, endy)
 

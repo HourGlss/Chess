@@ -1,5 +1,6 @@
 from colorama import Fore, Back, Style
 
+from pieces.piece import Piece
 from tile import Tile
 from config import Config
 # Import all the pieces
@@ -63,14 +64,43 @@ class Board:
         for i in range(len(pieces)):
             self.board[i][0].add_piece(pieces[i])
 
-    def is_piece_under_attack(self, piecex, piecey):
-        piece = self.board[piecex][piecey].get_piece()
-        if piece is not None:
+    def check_if_tile_under_attack(self, tilex, tiley, look_for_color):
+        being_attacked = False
+        for x in range(Config.BOARD_SIZE):
+            for y in range(Config.BOARD_SIZE):
+                piece = self.get_piece_at(x, y)
+                if piece is not None and look_for_color == piece.color:
+                    if piece.is_valid_move(self, x, y, tilex, tiley):
+                        being_attacked = True
+        return being_attacked
+
+    def show_if_tile_under_attack(self, tilex, tiley):
+        being_attacked = False
+        for x in range(Config.BOARD_SIZE):
+            for y in range(Config.BOARD_SIZE):
+                piece = self.get_piece_at(x, y)
+                if piece is not None:
+                    if piece.is_valid_move(self, x, y, tilex, tiley):
+                        self.board[x][y].background_color = Back.LIGHTGREEN_EX
+                        being_attacked = True
+        y = 0
+        for rank in Config.ranks:
+            print(f"{rank:2}", end="\t")
+            x = 0
+            for file in Config.files:
+                print(self.board[x][y], end="")
+                x += 1
+            print()
+            y += 1
+        print("\t", end="")
+        for file in Config.files:
+            print(f" {file} ", end="")
+        print()
+
+        for y in range(Config.BOARD_SIZE):
             for x in range(Config.BOARD_SIZE):
-                for y in range(Config.BOARD_SIZE):
-                    pass
-
-
+                self.board[x][y].set_background_color()
+        return being_attacked
 
     def custom_piece_placement(self):
         color = "white"
@@ -81,20 +111,21 @@ class Board:
         b = Bishop(color)
         k = King(color)
 
-        self.board[0][6].add_piece(p)
-        self.board[1][6].add_piece(p)
-        self.board[2][6].add_piece(r)
-        self.board[5][3].add_piece(r)
-        self.board[5][1].add_piece(b)
-        self.board[3][1].add_piece(q)
-        self.board[4][3].add_piece(n)
-        self.board[1][1].add_piece(k)
+        self.board[7][0].add_piece(r)
+        self.board[4][0].add_piece(k)
+        self.board[0][0].add_piece(r)
+        self.board[0][1].add_piece(p)
 
         color = "black"
         p = Pawn(color)
-        self.board[6][0].add_piece(p)
+        n = Knight(color)
+        r = Rook(color)
+        q = Queen(color)
+        b = Bishop(color)
+        k = King(color)
         self.board[2][3].add_piece(p)
         self.board[5][6].add_piece(p)
+        self.board[6][7].add_piece(q)
         self.board[1][5].add_piece(p)
 
     def print_board(self, selected=False, parsed_user_input=None):
@@ -124,6 +155,7 @@ class Board:
                 # TODO COMMENT THIS OUT FOR PROD
                 print(f" {Fore.GREEN}{y}{Style.RESET_ALL}")
                 # END DEBUG PRINT SECTION
+                # print()
                 y += 1
             print("\t", end="")
             for file in Config.files:
@@ -134,7 +166,9 @@ class Board:
             # CHANGE THE BACKGROUND COLOR
             for y in range(Config.BOARD_SIZE):
                 for x in range(Config.BOARD_SIZE):
+                    # print(f"evaluating ({selx},{sely}) to ({x},{y})")
                     if piece.is_valid_move(self, selx, sely, x, y):
+                        # print("yes its valid")
                         if self.is_tile_free(x, y):
                             self.board[x][y].background_color = Back.LIGHTYELLOW_EX
                         else:
@@ -163,7 +197,7 @@ class Board:
     def is_tile_free(self, x, y):
         return self.board[x][y].check_if_free()
 
-    def get_piece_at(self, x, y):
+    def get_piece_at(self, x, y) -> Piece:
         return self.board[x][y].get_piece()
 
     def move_piece(self, player_color, input_from_user):
@@ -174,11 +208,11 @@ class Board:
             return False
         # print(f"({startx},{starty}) -> ({endx},{endy})")
         piece = self.board[startx][starty].get_piece()
-        if piece.color != player_color:
+        if piece is not None and piece.color != player_color:
             print("That is not your piece to move!")
             return False
         if piece is not None:
-            if piece.is_valid_move(self, startx, starty, endx, endy):
+            if piece.is_valid_move(self, startx, starty, endx, endy, evaluate_only=False):
                 self.board[startx][starty].remove_piece()
                 self.board[endx][endy].add_piece(piece)
                 return True

@@ -6,7 +6,7 @@ class Rook(Piece):
         super().__init__(color)
         self.symbol = "R"
 
-    def is_valid_move(self:Piece, board, startx, starty, endx, endy):
+    def is_valid_move(self:Piece, board, startx, starty, endx, endy, evaluate_only=True):
         tile_is_free = board.is_tile_free(endx,endy)
         opponents_piece_is_occupying = self.attempt_capture(board, endx, endy)
 
@@ -55,5 +55,7 @@ class Rook(Piece):
 
 
         if (tile_is_free or opponents_piece_is_occupying) and valid_movement:
+            if not evaluate_only:
+                self.moved = True
             return True
         return False
