@@ -2,7 +2,7 @@ from board import Board
 import colorama
 import sys
 from config import Config
-
+import socket
 
 def transpose_rank_file_to_x_y(s):
     s = str(s).lower()
