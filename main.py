@@ -45,7 +45,7 @@ def main(server=True,ip=None):
     b.create_board()
     b.reset_pieces()
     if server:
-        server_address = ('0.0.0.0', 10001)
+        server_address = ('0.0.0.0', 45001)
         sock.bind(server_address)
         sock.listen(1)
         player = "white"
@@ -53,7 +53,7 @@ def main(server=True,ip=None):
     if not server:
         player = "black"
         current_player = "white"
-        server_address = (ip, 10001)
+        server_address = (ip, 45001)
         sock.connect(server_address)
     # b.custom_piece_placement()
     print_on_next = True
