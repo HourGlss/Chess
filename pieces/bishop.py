@@ -2,9 +2,9 @@ from pieces.piece import Piece
 
 
 class Bishop(Piece):
+    symbol = "B"
     def __init__(self, color):
         super().__init__(color)
-        self.symbol = "B"
 
     def is_valid_move(self:Piece, board, startx, starty, endx, endy, evaluate_only=True):
         tile_is_free = board.is_tile_free(endx, endy)

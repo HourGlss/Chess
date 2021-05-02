@@ -4,10 +4,10 @@ from pieces.rook import Rook
 
 
 class King(Piece):
+    symbol = "K"
 
     def __init__(self, color):
         super().__init__(color)
-        self.symbol = "K"
 
     def is_valid_move(self, board, startx, starty, endx, endy, evaluate_only=True):
         if self.color == "white":

@@ -65,13 +65,15 @@ class Board:
             self.board[i][0].add_piece(pieces[i])
 
     def check_if_tile_under_attack(self, tilex, tiley, look_for_color):
+        print(f"citua {tilex},{tiley}")
         being_attacked = False
-        for x in range(Config.BOARD_SIZE):
-            for y in range(Config.BOARD_SIZE):
+        for y in range(Config.BOARD_SIZE):
+            for x in range(Config.BOARD_SIZE):
                 piece = self.get_piece_at(x, y)
                 if piece is not None and look_for_color == piece.color:
                     if piece.is_valid_move(self, x, y, tilex, tiley):
                         being_attacked = True
+                        break
         return being_attacked
 
     def show_if_tile_under_attack(self, tilex, tiley):
@@ -111,10 +113,17 @@ class Board:
         b = Bishop(color)
         k = King(color)
 
-        self.board[7][0].add_piece(r)
-        self.board[4][0].add_piece(k)
-        self.board[0][0].add_piece(r)
-        self.board[0][1].add_piece(p)
+        self.board[0][7].add_piece(r)
+        self.board[7][7].add_piece(r)
+        self.board[4][7].add_piece(k)
+        self.board[6][3].add_piece(b)
+        self.board[0][6].add_piece(p)
+        self.board[1][5].add_piece(p)
+        self.board[2][6].add_piece(p)
+        self.board[3][4].add_piece(p)
+        self.board[5][6].add_piece(p)
+        self.board[6][6].add_piece(p)
+        self.board[7][6].add_piece(p)
 
         color = "black"
         p = Pawn(color)
@@ -123,10 +132,19 @@ class Board:
         q = Queen(color)
         b = Bishop(color)
         k = King(color)
-        self.board[2][3].add_piece(p)
-        self.board[5][6].add_piece(p)
-        self.board[6][7].add_piece(q)
-        self.board[1][5].add_piece(p)
+        self.board[0][1].add_piece(p)
+        self.board[1][2].add_piece(p)
+        self.board[3][3].add_piece(p)
+        self.board[4][2].add_piece(p)
+        self.board[5][1].add_piece(p)
+        self.board[6][1].add_piece(p)
+        self.board[7][1].add_piece(p)
+        self.board[3][1].add_piece(q)
+        self.board[1][4].add_piece(b)
+        self.board[4][4].add_piece(n)
+        self.board[4][0].add_piece(k)
+        self.board[7][0].add_piece(r)
+        self.board[4][5].add_piece(r)
 
     def print_board(self, selected=False, parsed_user_input=None):
         selx, sely, piece = None, None, None
@@ -194,6 +212,36 @@ class Board:
                 for x in range(Config.BOARD_SIZE):
                     self.board[x][y].set_background_color()
 
+    def check_for_check(self, defender):
+        # print(f"look for color {defender}")
+
+        attacker = None
+        if defender == "white":
+            attacker = "black"
+        else:
+            attacker = "white"
+        # print(f"attacker is {attacker}")
+        # FIND THE KING
+        kingx, kingy = None, None
+        for y in range(Config.BOARD_SIZE):
+            for x in range(Config.BOARD_SIZE):
+                piece = self.get_piece_at(x, y)
+                if piece is not None:
+                    # print(f"{piece.color}{piece.__class__.__name__} at {x},{y}  sym {piece.symbol} {King.symbol}")
+                    if piece.color == defender and piece.symbol == King.symbol:
+                        kingx = x
+                        kingy = y
+                        break
+        # print(f"king is at  {kingx},{kingy}")
+        for y in range(Config.BOARD_SIZE):
+            for x in range(Config.BOARD_SIZE):
+                piece = self.get_piece_at(x, y)
+                if piece is not None and attacker == piece.color:
+                    if piece.is_valid_move(self, x, y, kingx, kingy):
+                        return True
+        return False
+
+
     def is_tile_free(self, x, y):
         return self.board[x][y].check_if_free()
 
@@ -205,23 +253,23 @@ class Board:
             startx, starty, endx, endy = input_from_user
         else:
             print("Bad input!")
-            return False
+            return False, 0
         # print(f"({startx},{starty}) -> ({endx},{endy})")
         piece = self.board[startx][starty].get_piece()
         if piece is not None and piece.color != player_color:
             print("That is not your piece to move!")
-            return False
+            return False, 0
         if piece is not None:
             if piece.is_valid_move(self, startx, starty, endx, endy, evaluate_only=False):
                 self.board[startx][starty].remove_piece()
                 self.board[endx][endy].add_piece(piece)
-                return True
+                return True, piece, endx, endy
             else:
                 print("MOVE IS NOT VALID - PIECE CANT MOVE THAT WAY")
-                return False
+                return False, 0
         else:
             print("MOVE IS NOT VALID - NO PIECE THERE")
-            return False
+            return False, 0
 
 
 if __name__ == "__main__":

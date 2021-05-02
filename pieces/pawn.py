@@ -2,9 +2,9 @@ from pieces.piece import Piece
 
 
 class Pawn(Piece):
+    symbol = "P"
     def __init__(self, color):
         super().__init__(color)
-        self.symbol = "P"
 
     def is_valid_move(self, board, startx, starty, endx, endy, evaluate_only=True):
         tile_is_free = board.board[endx][endy].check_if_free()
